@@ -5,6 +5,9 @@ import pygame
 
 pygame.init()
 
+#repl link https://replit.com/@TomaszHealey/Minesweeper?v=1
+#before you comment it, i know that putting just functions into the classes is useless and i can just put them outside the classes but it is for organization since im too lazy to switch between files.
+
 
 colour_active = pygame.Color(('black'))# Colour for when the rect is interacted with (white)
 colour, colour_passive = pygame.Color(('white')), pygame.Color(('white'))# Colour for when the rect is not being interacted with (black)
@@ -19,15 +22,15 @@ large_font = pygame.font.Font(None, 100)
 largest_font = pygame.font.Font(None, 200)
 
 #loads pngs into variables flagged with "image"
-imageLeaderboardIcon = pygame.image.load("Assets\LeaderboardIcon.png")
-imageCross = pygame.image.load("Assets\Cross.png")
-imageColourBox = pygame.image.load("Assets\ColourBox.png")
-flags = {"FlagSmall": pygame.image.load("Assets\Flag40x.png"),
-        "FlagLarge": pygame.image.load("Assets\Flag50x.png")}
-bombs = {"BombSmall": pygame.image.load("Assets\Bomb40x.png"),
-         "BombLarge": pygame.image.load("Assets\Bomb50x.png")}
-mouse = [pygame.image.load("Assets\MouseStationary.png"), pygame.image.load("Assets\MouseLeft.png"), pygame.image.load("Assets\MouseRight.png")]
-imageShovel = pygame.image.load("Assets\Shovel.png")
+imageLeaderboardIcon = pygame.image.load("Assets/LeaderboardIcon.png")
+imageCross = pygame.image.load("Assets/Cross.png")
+imageColourBox = pygame.image.load("Assets/ColourBox.png")
+flags = {"FlagSmall": pygame.image.load("Assets/Flag40x.png"),
+        "FlagLarge": pygame.image.load("Assets/Flag50x.png")}
+bombs = {"BombSmall": pygame.image.load("Assets/Bomb40x.png"),
+         "BombLarge": pygame.image.load("Assets/Bomb50x.png")}
+mouse = [pygame.image.load("Assets/MouseStationary.png"), pygame.image.load("Assets/MouseLeft.png"), pygame.image.load("Assets/MouseRight.png")]
+imageShovel = pygame.image.load("Assets/Shovel.png")
 
 gameStage = 'signin'
 finished = False
@@ -162,8 +165,7 @@ leaderboardLines = [(15,230),
                  (15,350),
                  (15,380),] 
 
-#this is used to create a specified number of classes, you cannot created an infinite ammount of variables but you can initalise an inifinite ammount of classes. I felt like a super villan when this solution worked. The alternative would have been to create 400 variables for the hard mode (which is stupid and time consuming)
-#this is how you are supposed to use classes (not for organisation like i have done as if I am using java)
+#class for tiles on the board, mostly self explanatory
 class BoardTile():
 
     def __init__(self, rect):
@@ -569,15 +571,16 @@ class ColourBox:
         colourChangeBox["PreviewColour"] = (int(tempRed), int(tempGreen), int(tempBlue))
 
     def ApplyColourToJSON():
-        user["Colour"] = BG_colour
-        userList[userIndex]["Colour"] = list(BG_colour)
-        with open("users.json", "w") as f:
-            json.dump(userList, f, indent=4)
+        if user != None:
+            user["Colour"] = BG_colour
+            userList[userIndex]["Colour"] = list(BG_colour)
+            with open("users.json", "w") as f:
+                json.dump(userList, f, indent=4)
 
 class Animations:
 
     def LeftClick(pos: tuple):
-        if dt < fps/2:
+        if frame < fpsCap/2:
             image = mouse[0]
         else:
             image = mouse[1]
@@ -587,7 +590,7 @@ class Animations:
         pygame.draw.rect(screen, 'black', (200,830, 40, 10))
     
     def RightClick(pos: tuple):
-        if dt < fps/2:
+        if frame < fpsCap/2:
             image = mouse[0]
         else:
             image = mouse[2]
@@ -622,31 +625,31 @@ class MenuSelect:
                 if enableHuge:
                     match i:
                         case "Easy":
-                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength =  gameBoardEasyEmpty, [300, 300], 50, flags["FlagLarge"], 10, bombs["BombLarge"], 11, 8
+                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength =  gameBoardEasyEmpty, [300, 300], 50, flags["FlagLarge"], 8, bombs["BombLarge"], 11, 8
                             textOffset = 10
                             minSize = 9
                         case "Medium":
-                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength   =  gameBoardMediumEmpty, [125,150], 50, flags["FlagLarge"], 25, bombs["BombLarge"], 18, 15
+                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength   =  gameBoardMediumEmpty, [125,150], 50, flags["FlagLarge"], 30, bombs["BombLarge"], 18, 15
                             textOffset = 10
                             minSize = 9
                         case "Hard":
-                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength   = gameBoardHardEmpty, [100,150], 40, flags["FlagSmall"],120, bombs["BombSmall"], 18, 20
+                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength   = gameBoardHardEmpty, [100,150], 40, flags["FlagSmall"],90, bombs["BombSmall"], 18, 20
                             textOffset = 8
                             minSize = 9
                         case "Huge":
-                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength   = gameBoardHugeEmpty, [20,20], 20, flags["FlagSmall"],900, bombs["BombSmall"], 120, 48
+                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength   = gameBoardHugeEmpty, [20,20], 20, flags["FlagSmall"],356, bombs["BombSmall"], 120, 48
                             textOffset = 4
                             minSize = 100
                 else:
                     match i:
                         case "Easy":
-                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength =  gameBoardEasyEmpty, [300, 300], 50, flags["FlagLarge"], 15, bombs["BombLarge"], 11, 8
+                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength =  gameBoardEasyEmpty, [300, 300], 50, flags["FlagLarge"], 8, bombs["BombLarge"], 11, 8
                             textOffset = 10
                         case "Medium":
-                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength   =  gameBoardMediumEmpty, [125,150], 50, flags["FlagLarge"], 25, bombs["BombLarge"], 18, 15
+                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength   =  gameBoardMediumEmpty, [125,150], 50, flags["FlagLarge"], 30, bombs["BombLarge"], 18, 15
                             textOffset = 10
                         case "Hard":
-                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength   = gameBoardHardEmpty, [100,150], 40, flags["FlagSmall"],120, bombs["BombSmall"], 18, 20
+                            gameBoard, boardTileStart, boardTileSize, flag, flagMax, bomb, startSize, boardLength   = gameBoardHardEmpty, [100,150], 40, flags["FlagSmall"],90, bombs["BombSmall"], 18, 20
                             textOffset = 8
                 playing = True
                 generated = False
@@ -905,18 +908,18 @@ class Leaderboard:
 with open("users.json", "r") as f:
     userList = json.load(f)
     f.close()
-#delta time (used for animations)
-dt = 0
+
+frame = 0
 #whether a new game has started. The iteration of the while loop if the gameStage is 'game'
 iteration = 0
 
-fps = 30
+fpsCap = 30
 while True:
     # clock.tick() limits the while loop to a max of 30 times per second. 
-    clock.tick(fps)
+    clock.tick(fpsCap)
 
-    if dt == 30:
-        dt = 0
+    if frame == fpsCap:
+        frame = 0
 
     for event in pygame.event.get():
 
@@ -924,7 +927,7 @@ while True:
             pygame.quit()
             sys.exit()
 
-        if gameStage == 'signin' or gameStage == 'register' or gameStage == 'menuselect':
+        if gameStage == 'signin' or gameStage == 'register' or gameStage == 'menuselect' or difficulty != "Huge":
             if event.type == pygame.MOUSEBUTTONDOWN:
                 ColourBox.CollisionCheck()
                 Leaderboard.CollisionCheck()
@@ -982,11 +985,11 @@ while True:
     elif gameStage == 'game':
         Game.mainRender()
         iteration = 1
-    if gameStage == 'signin' or gameStage == 'register' or gameStage == 'menuselect' or difficulty != 'Huge':
+    if difficulty != 'Huge':
         ColourBox.Render()
-        Leaderboard.Render()
+        if gameStage != 'game':
+            Leaderboard.Render()
             
-
     pygame.display.flip()
 
-    dt += 1
+    frame += 1
