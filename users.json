@@ -1,0 +1,41 @@
+[
+    {
+        "Username": "Tom",
+        "Password": "Admin123!",
+        "easyWon": 5,
+        "mediumWon": 0,
+        "hardWon": 0,
+        "hugeWon": 0,
+        "Colour": [
+            90,
+            90,
+            90
+        ]
+    },
+    {
+        "Username": "John",
+        "Password": "Boots123!",
+        "easyWon": 0,
+        "mediumWon": 0,
+        "hardWon": 0,
+        "hugeWon": 0,
+        "Colour": [
+            90,
+            90,
+            90
+        ]
+    },
+    {
+        "Username": "Guest",
+        "Password": "a;sdlkfapowerikasj123!F",
+        "easyWon": 0,
+        "mediumWon": 1,
+        "hardWon": 0,
+        "hugeWon": 0,
+        "Colour": [
+            90,
+            90,
+            90
+        ]
+    }
+]
